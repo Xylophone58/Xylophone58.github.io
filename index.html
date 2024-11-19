@@ -1,28 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-</head>
-<body>
+
+<script src="CommerceBankAdmin.js">
+</script>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  
+  <style>
+header {
+  max-height: 125px;
+  max-width: 300px;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: whitesmoke;
+}
+h2 {
+  text-align: center;
+  width: 100%;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: auto;
+}
+
+table,
+th,
+td {
+  border: 2px solid black;
+  margin: auto;
+  background-color: whitesmoke;
+}
+td {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+}
+
+.button {
+  border: 0px;
+}
+input[type="text"] {
+  width: 100%;
+  text-align: center;
+  background-color: whitesmoke;
+  border: 0px;
+}
+input[readonly="readonly"] {
+  background-color: whitesmoke;
+}
+input[button] {
+  background-color: green;
+}
+button {
+  background-color: green;
+  color: white;
+  height: 30px;
+  width: 100px;
+  align-content: center;
+}
+img {
+  height: 125px;
+  width: 300px;
+  padding-bottom: 50px;
+}
+
+button:hover{
+  cursor:pointer;
+}
+  </style>
+  <title>React App</title>
+  <body> 
+    <div id="root"></div>
     <header>
-        <h1>Welcome to My Website</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+      <img src="CommerceBank.png" />
     </header>
-    <main>
-        <section id="about">
-            <h2>About Me</h2>
-            <p>This is where I'll write about myself.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Zachary D. Mitchell</p>
-    </footer>
-</body>
+    <br />
+    <div style="width: 80%; margin: 0 auto">
+      <h2>IP Information</h2>
+      <br>
+      <input type="text" id="filterInput" placeholder="Search for IP Address...">
+      <table id="ipRecords">
+        <tr>
+          <th>IP Adress</th>
+          <th>IP Info</th>
+          <th>Company</th>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="text"
+              class="input"
+              readonly="readonly"
+              value="192.0.3.7"
+            />
+          </td>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="local ip"
+            />
+          </td>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="company b"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="183.3.5.1"
+            />
+          </td>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="mobile ip"
+            />
+          </td>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="company a"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="192.6.5.7"
+            />
+          </td>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="tablet ip"
+            />
+          </td>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="company b"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="186.2.5.1"
+            />
+          </td>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="local ip"
+            />
+          </td>
+          <td>
+            <input
+              class="input"
+              type="text"
+              readonly="readonly"
+              value="company c"
+            />
+          </td>
+        </tr>
+      </table>
+      <br />
+      <table class="button">
+        <th class="button"><button onclick="filterIpTable()">Filter</button></th>
+        <th class="button"><button id="addBtn" onclick="addRow()">Add</button></th>
+        <th class="button">
+          <button id="editBtn" onclick="handleEditButton()">Edit</button>
+        </th>
+        <th class="button"><button id="deleteBtn" onclick="deleteRow()">Delete</button></th>
+      </table>
+
+      <br />
+      <br />
+
+      <!-- User Info Table -->
+      <h2>User Info Table</h2>
+      <table id="ipRecords2">
+        <tr>
+          <th>Username</th>
+          <th>Password</th>
+          <th>User ID</th>
+          <th>App ID</th>
+        </tr>
+        <tr>
+          <td>
+            <input
+              class="input2"
+              type="text"
+              readonly="readonly"
+              value="username1"
+            />
+          </td>
+          <td>
+            <input
+              class="input2"
+              type="text"
+              readonly="readonly"
+              value="password1"
+            />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="userid1" />
+          </td>
+
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="1" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="username2" />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="password2" />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="userid2" />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="2" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="username3" />
+          </td>
+          <td>
+            <input class="input2"  type="text" readonly="readonly" value="password3" />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="userid3" />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="3" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="username4" />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="password4" />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="userid4" />
+          </td>
+          <td>
+            <input class="input2" type="text" readonly="readonly" value="4" />
+          </td>
+        </tr>
+      </table>
+      <br />
+      <table class="button">
+        <th class="button"><button >Filter</button></th>
+        <th class="button"><button id="addBtn2" onclick="addRow2()" >Add</button></th>
+        <th class="button"><button id="editBtn2" onclick="handleEditButton2()">Edit</button>
+        </th>
+        <th class="button"><button onclick="deleteRow2()">Delete</button></th>
+      </table>
+    </div>
+  </body>
 </html>
