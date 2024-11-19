@@ -1,297 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<script src="CommerceBankAdmin.js">
-</script>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  
-  <style>
-header {
-  max-height: 125px;
-  max-width: 300px;
-}
-body {
-  font-family: Arial, sans-serif;
-  background-color: whitesmoke;
-}
-h2 {
-  text-align: center;
-  width: 100%;
-}
-table {
-  border-collapse: collapse;
-  width: 100%;
-  overflow-x: auto;
-}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Your CSS styles here */
 
-table,
-th,
-td {
-  border: 2px solid black;
-  margin: auto;
-  background-color: whitesmoke;
-}
-td {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 2px;
-}
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-.button {
-  border: 0px;
-}
-input[type="text"] {
-  width: 100%;
-  text-align: center;
-  background-color: whitesmoke;
-  border: 0px;
-}
-input[readonly="readonly"] {
-  background-color: whitesmoke;
-}
-input[button] {
-  background-color: green;
-}
-button {
-  background-color: green;
-  color: white;
-  height: 30px;
-  width: 100px;
-  align-content: center;
-}
-img {
-  height: 125px;
-  width: 300px;
-  padding-bottom: 50px;
-}
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
 
-button:hover{
-  cursor:pointer;
-}
-  </style>
-  <title>React App</title>
-  <body> 
-    <div id="root"></div>
-    <header>
-      <img src="CommerceBank.png" />
-    </header>
-    <br />
-    <div style="width: 80%; margin: 0 auto">
-      <h2>IP Information</h2>
-      <br>
-      <input type="text" id="filterInput" placeholder="Search for IP Address...">
-      <table id="ipRecords">
-        <tr>
-          <th>IP Adress</th>
-          <th>IP Info</th>
-          <th>Company</th>
-        </tr>
-        <tr>
-          <td>
-            <input
-              type="text"
-              class="input"
-              readonly="readonly"
-              value="192.0.3.7"
-            />
-          </td>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="local ip"
-            />
-          </td>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="company b"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="183.3.5.1"
-            />
-          </td>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="mobile ip"
-            />
-          </td>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="company a"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="192.6.5.7"
-            />
-          </td>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="tablet ip"
-            />
-          </td>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="company b"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="186.2.5.1"
-            />
-          </td>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="local ip"
-            />
-          </td>
-          <td>
-            <input
-              class="input"
-              type="text"
-              readonly="readonly"
-              value="company c"
-            />
-          </td>
-        </tr>
-      </table>
-      <br />
-      <table class="button">
-        <th class="button"><button onclick="filterIpTable()">Filter</button></th>
-        <th class="button"><button id="addBtn" onclick="addRow()">Add</button></th>
-        <th class="button">
-          <button id="editBtn" onclick="handleEditButton()">Edit</button>
-        </th>
-        <th class="button"><button id="deleteBtn" onclick="deleteRow()">Delete</button></th>
-      </table>
+        th {
+            background-color: #f2f2f2;
+        }
 
-      <br />
-      <br />
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            margin-top: 20px; /* Added margin at the top */
+        }
 
-      <!-- User Info Table -->
-      <h2>User Info Table</h2>
-      <table id="ipRecords2">
-        <tr>
-          <th>Username</th>
-          <th>Password</th>
-          <th>User ID</th>
-          <th>App ID</th>
-        </tr>
-        <tr>
-          <td>
-            <input
-              class="input2"
-              type="text"
-              readonly="readonly"
-              value="username1"
-            />
-          </td>
-          <td>
-            <input
-              class="input2"
-              type="text"
-              readonly="readonly"
-              value="password1"
-            />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="userid1" />
-          </td>
+        .actions button {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #006747; /* Green background color */
+            color: white; /* White text color */
+            border: none; /* Remove border */
+            border-radius: 4px; /* Rounded corners */
+        }
+    </style>
+    <title>IP Records</title>
+</head>
 
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="1" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="username2" />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="password2" />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="userid2" />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="2" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="username3" />
-          </td>
-          <td>
-            <input class="input2"  type="text" readonly="readonly" value="password3" />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="userid3" />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="3" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="username4" />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="password4" />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="userid4" />
-          </td>
-          <td>
-            <input class="input2" type="text" readonly="readonly" value="4" />
-          </td>
-        </tr>
-      </table>
-      <br />
-      <table class="button">
-        <th class="button"><button >Filter</button></th>
-        <th class="button"><button id="addBtn2" onclick="addRow2()" >Add</button></th>
-        <th class="button"><button id="editBtn2" onclick="handleEditButton2()">Edit</button>
-        </th>
-        <th class="button"><button onclick="deleteRow2()">Delete</button></th>
-      </table>
+<body>
+    <table id="ipRecords">
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Application ID</th>
+                <th>Server</th>
+                <th>Port</th>
+                <th>Date Modified</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table content will be added dynamically -->
+        </tbody>
+    </table>
+
+    <div class="actions">
+        <button id="addRecordBtn">Add New Record</button>
     </div>
-  </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addRecordBtn = document.getElementById('addRecordBtn');
+            const ipRecordsTable = document.getElementById('ipRecords').getElementsByTagName('tbody')[0];
+
+            // Load table data from localStorage if available
+            const savedData = localStorage.getItem('ipRecordsData');
+            if (savedData) {
+                ipRecordsTable.innerHTML = savedData;
+                attachEventListeners();
+            }
+
+            addRecordBtn.addEventListener('click', function () {
+                const ip = prompt('Enter IP Address:');
+                const appId = prompt('Enter Application ID:');
+                const server = prompt('Enter Server:');
+                const port = prompt('Enter Port:');
+                const dateModified = new Date().toLocaleString();
+
+                if (ip && appId && server && port) {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                    <td>${ip}</td>
+                    <td>${appId}</td>
+                    <td>${server}</td>
+                    <td>${port}</td>
+                    <td>${dateModified}</td>
+                    <td>
+                        <button class="editBtn">Edit</button>
+                        <button class="deleteBtn">Delete</button>
+                    </td>
+                `;
+                    ipRecordsTable.appendChild(newRow);
+                    attachEventListeners();
+
+                    // Save table data to localStorage
+                    saveDataToLocalStorage();
+                } else {
+                    alert('Please fill out all fields.');
+                }
+            });
+
+            exportExcelBtn.addEventListener('click', function () {
+                const wb = XLSX.utils.table_to_book(document.getElementById('ipRecords'));
+                XLSX.writeFile(wb, 'ip_records.xlsx');
+            });
+
+            function attachEventListeners() {
+                const editButtons = document.querySelectorAll('.editBtn');
+                const deleteButtons = document.querySelectorAll('.deleteBtn');
+
+                editButtons.forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        const row = this.parentNode.parentNode;
+                        editRecord(row);
+                    });
+                });
+
+                deleteButtons.forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        const row = this.parentNode.parentNode;
+                        deleteRecord(row);
+                    });
+                });
+            }
+
+            function editRecord(row) {
+                const ip = prompt('Enter new IP Address:', row.cells[0].innerText);
+                const appId = prompt('Enter new Application ID:', row.cells[1].innerText);
+                const server = prompt('Enter new Server:', row.cells[2].innerText);
+                const port = prompt('Enter new Port:', row.cells[3].innerText);
+
+                if (ip && appId && server && port) {
+                    row.cells[0].innerText = ip;
+                    row.cells[1].innerText = appId;
+                    row.cells[2].innerText = server;
+                    row.cells[3].innerText = port;
+                    row.cells[4].innerText = new Date().toLocaleString();
+
+                    // Save table data to localStorage
+                    saveDataToLocalStorage();
+                } else {
+                    alert('Please fill out all fields.');
+                }
+            }
+
+            function deleteRecord(row) {
+                if (confirm('Are you sure you want to delete this record?')) {
+                    row.remove();
+
+                    // Save table data to localStorage
+                    saveDataToLocalStorage();
+                }
+            }
+
+            function saveDataToLocalStorage() {
+                localStorage.setItem('ipRecordsData', ipRecordsTable.innerHTML);
+            }
+        });
+
+    </script>
+
+</body>
+
 </html>
