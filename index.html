@@ -5,74 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zachary Mitchell Portfolio</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background: url('your-background-image.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background: url('your-background-image.jpg') no-repeat center top;
+        background-attachment: fixed;
+        background-size: cover;
+        color: #fff;
+        padding-top: 60px; /* Push content below the navbar */
+    }
 
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px 0;
-            text-align: center;
-            z-index: 1000;
-        }
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px; /* Navbar height */
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px 0;
+        text-align: center;
+        z-index: 1000;
+    }
 
-        .navbar a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-            transition: color 0.3s;
-        }
+    .navbar a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 18px;
+        transition: color 0.3s;
+    }
 
-        .navbar a:hover {
-            color: #00bcd4;
-        }
+    .navbar a:hover {
+        color: #00bcd4;
+    }
 
-        .section {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
+    .section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 20px; /* Add space above and below each section */
+    }
 
-        .about-me {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-        }
+    .section-content {
+        width: 90%; /* Bubble width */
+        min-height: 150px; /* Minimum height for a nice look */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 30px; /* Bubble-like effect */
+        text-align: center;
+    }
 
-        .portfolio {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-        }
+    .section + .section {
+        margin-top: 50px; /* Space between sections */
+    }
 
-        .my-games {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-        }
+    h1 {
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
 
-        .contact-info {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-        }
-    </style>
+    p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+</style>
 </head>
 <body>
 
@@ -83,25 +88,38 @@
         <a href="#contact-info">Contact Info</a>
     </div>
 
-    <div id="about-me" class="section about-me">
-        <h1>About Me</h1>
+    <div id="about-me" class="section">
+    <div class="section-content">
+      	<header>
+        	<h1>About Me</h1>
         <p>Information about Zachary Mitchell.</p>
+          <p>Information about Zachary Mitchell.</p>
+          <p>Information about Zachary Mitchell.</p>
+          <p>Information about Zachary Mitchell.</p>
+          <p>Information about Zachary Mitchell.</p><p>Information about Zachary Mitchell.</p><p>Information about Zachary Mitchell.</p><p>Information about Zachary Mitchell.</p><p>Information about Zachary Mitchell.</p><p>Information about Zachary Mitchell.</p><p>Information about Zachary Mitchell.</p>
     </div>
+</div>
 
-    <div id="portfolio" class="section portfolio">
+<div id="portfolio" class="section">
+    <div class="section-content">
         <h1>Portfolio</h1>
         <p>Details about my projects and work.</p>
     </div>
+</div>
 
-    <div id="my-games" class="section my-games">
+<div id="my-games" class="section">
+    <div class="section-content">
         <h1>My Games</h1>
         <p>Details about the games I have developed.</p>
     </div>
+</div>
 
-    <div id="contact-info" class="section contact-info">
+<div id="contact-info" class="section">
+    <div class="section-content">
         <h1>Contact Info</h1>
         <p>Email: zach@example.com</p>
     </div>
+</div>
 
 </body>
 </html>
