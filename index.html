@@ -34,10 +34,10 @@
         top: 0;
         width: 100%;
         height: 60px; /* Navbar height */
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.438);
         padding: 10px 0;
         text-align: center;
-        z-index: 1000;
+        z-index: 1001;
         font-family: 'VCR OSD Mono', Arial, sans-serif;
     }
 
@@ -57,7 +57,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 50px 20px; /* Add space above and below each section */
+        padding-top: 100px; /* Add space above and below each section */
     }
 
     .section-content {
@@ -68,14 +68,15 @@
         align-items: center;
         flex-direction: column;
         background: rgba(0, 0, 0, 0.5);
-        padding: 20px;
+        padding: 50px;
         border-radius: 30px; /* Bubble-like effect */
         text-align: center;
         font-family: 'VCR OSD Mono', Arial, sans-serif;
+        z-index: 1000;
     }
 
     .section + .section {
-        margin-top: 50px; /* Space between sections */
+        margin-top: 0px; /* Space between sections */
     }
 
     h1 {
@@ -130,6 +131,140 @@
         <p>Email: zach@example.com</p>
     </div>
 </div>
+
+<div class="wrapper">
+    <div class="gradient gradient-1"></div>
+    <div class="gradient gradient-2"></div>
+    <div class="gradient gradient-3"></div>
+  </div>
+  <style>
+    body {
+      margin: 0;
+      color: #fff;
+      background-color: #000;
+      padding: 0; 
+    }
+
+    .wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      filter: blur(300px);
+    }
+
+    .gradient {
+      position: fixed;
+      border-radius: 100%;
+      opacity: 0.75;
+      mix-blend-mode: screen;
+      animation-iteration-count: infinite;
+      animation-timing-function: cubic-bezier(0.1, 0, 0.9, 1);
+    }
+
+    
+.gradient-1 {
+  background: rgb(224, 114, 11) none repeat scroll 0% 0% / auto padding-box border-box;
+  width: 700px;
+  height: 700px;
+  animation-duration: 12s;
+  opacity: 0.75;
+  left: 60%;
+  top: 40%;
+  z-index: -2;
+  animation-name: animation-gradient-1;
+}
+.gradient-2 {
+  background: rgb(23, 91, 218) none repeat scroll 0% 0% / auto padding-box border-box;
+  width: 600px;
+  height: 600px;
+  animation-duration: 12s;
+  opacity: 0.75;
+  left: 40%;
+  top: 60%;
+  z-index: -1;
+  animation-name: animation-gradient-2;
+}
+.gradient-3 {
+  background: rgb(137, 1, 1) none repeat scroll 0% 0% / auto padding-box border-box;
+  width: 500px;
+  height: 500px;
+  animation-duration: 12s;
+  opacity: 0.75;
+  left: 50%;
+  top: 50%;
+  z-index: -3;
+  animation-name: animation-gradient-3;
+}
+
+    @keyframes animation-gradient-1 {
+      0% {
+        transform: translateY(-50%) translateX(-50%) rotate(-20deg) translateX(20%);
+      }
+      25% {
+        transform: translateY(-50%) translateX(-50%) skew(-15deg, -15deg)
+          rotate(80deg) translateX(30%);
+      }
+      50% {
+        transform: translateY(-50%) translateX(-50%) rotate(180deg) translateX(25%);
+      }
+      75% {
+        transform: translateY(-50%) translateX(-50%) skew(15deg, 15deg)
+          rotate(240deg) translateX(15%);
+      }
+      100% {
+        transform: translateY(-50%) translateX(-50%) rotate(340deg) translateX(20%);
+      }
+    }
+    
+    @keyframes animation-gradient-2 {
+      0% {
+        transform: translateY(-50%) translateX(-50%) rotate(40deg) translateX(-20%);
+      }
+      25% {
+        transform: translateY(-50%) translateX(-50%) skew(15deg, 15deg)
+          rotate(110deg) translateX(-5%);
+      }
+      50% {
+        transform: translateY(-50%) translateX(-50%) rotate(210deg) translateX(-35%);
+      }
+      75% {
+        transform: translateY(-50%) translateX(-50%) skew(-15deg, -15deg)
+          rotate(300deg) translateX(-10%);
+      }
+      100% {
+        transform: translateY(-50%) translateX(-50%) rotate(400deg) translateX(-20%);
+      }
+    }
+    
+    @keyframes animation-gradient-3 {
+      0% {
+        transform: translateY(-50%) translateX(-50%) translateX(-15%)
+          translateY(10%);
+      }
+      20% {
+        transform: translateY(-50%) translateX(-50%) translateX(20%)
+          translateY(-30%);
+      }
+      40% {
+        transform: translateY(-50%) translateX(-50%) translateX(-25%)
+          translateY(-15%);
+      }
+      60% {
+        transform: translateY(-50%) translateX(-50%) translateX(30%) translateY(20%);
+      }
+      80% {
+        transform: translateY(-50%) translateX(-50%) translateX(5%) translateY(35%);
+      }
+      100% {
+        transform: translateY(-50%) translateX(-50%) translateX(-15%)
+          translateY(10%);
+      }
+    }
+
+  </style>
 
 </body>
 </html>
