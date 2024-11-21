@@ -1,168 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zachary Mitchell Portfolio</title>
     <style>
-        /* Your CSS styles here */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        table {
-            border-collapse: collapse;
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background: url('your-background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
             width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 0;
+            text-align: center;
+            z-index: 1000;
         }
 
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: color 0.3s;
         }
 
-        th {
-            background-color: #f2f2f2;
+        .navbar a:hover {
+            color: #00bcd4;
         }
 
-        .actions {
+        .section {
+            height: 100vh;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            margin-top: 20px; /* Added margin at the top */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        .actions button {
-            padding: 10px;
-            cursor: pointer;
-            background-color: #006747; /* Green background color */
-            color: white; /* White text color */
-            border: none; /* Remove border */
-            border-radius: 4px; /* Rounded corners */
+        .about-me {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .portfolio {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .my-games {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .contact-info {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
         }
     </style>
-    <title>IP Records</title>
 </head>
-
 <body>
-    <table id="ipRecords">
-        <thead>
-            <tr>
-                <th>IP Address</th>
-                <th>Application ID</th>
-                <th>Server</th>
-                <th>Port</th>
-                <th>Date Modified</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Table content will be added dynamically -->
-        </tbody>
-    </table>
 
-    <div class="actions">
-        <button id="addRecordBtn">Add New Record</button>
+    <div class="navbar">
+        <a href="#about-me">About Me</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#my-games">My Games</a>
+        <a href="#contact-info">Contact Info</a>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const addRecordBtn = document.getElementById('addRecordBtn');
-            const ipRecordsTable = document.getElementById('ipRecords').getElementsByTagName('tbody')[0];
 
-            // Load table data from localStorage if available
-            const savedData = localStorage.getItem('ipRecordsData');
-            if (savedData) {
-                ipRecordsTable.innerHTML = savedData;
-                attachEventListeners();
-            }
+    <div id="about-me" class="section about-me">
+        <h1>About Me</h1>
+        <p>Information about Zachary Mitchell.</p>
+    </div>
 
-            addRecordBtn.addEventListener('click', function () {
-                const ip = prompt('Enter IP Address:');
-                const appId = prompt('Enter Application ID:');
-                const server = prompt('Enter Server:');
-                const port = prompt('Enter Port:');
-                const dateModified = new Date().toLocaleString();
+    <div id="portfolio" class="section portfolio">
+        <h1>Portfolio</h1>
+        <p>Details about my projects and work.</p>
+    </div>
 
-                if (ip && appId && server && port) {
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                    <td>${ip}</td>
-                    <td>${appId}</td>
-                    <td>${server}</td>
-                    <td>${port}</td>
-                    <td>${dateModified}</td>
-                    <td>
-                        <button class="editBtn">Edit</button>
-                        <button class="deleteBtn">Delete</button>
-                    </td>
-                `;
-                    ipRecordsTable.appendChild(newRow);
-                    attachEventListeners();
+    <div id="my-games" class="section my-games">
+        <h1>My Games</h1>
+        <p>Details about the games I have developed.</p>
+    </div>
 
-                    // Save table data to localStorage
-                    saveDataToLocalStorage();
-                } else {
-                    alert('Please fill out all fields.');
-                }
-            });
-
-            exportExcelBtn.addEventListener('click', function () {
-                const wb = XLSX.utils.table_to_book(document.getElementById('ipRecords'));
-                XLSX.writeFile(wb, 'ip_records.xlsx');
-            });
-
-            function attachEventListeners() {
-                const editButtons = document.querySelectorAll('.editBtn');
-                const deleteButtons = document.querySelectorAll('.deleteBtn');
-
-                editButtons.forEach(function (btn) {
-                    btn.addEventListener('click', function () {
-                        const row = this.parentNode.parentNode;
-                        editRecord(row);
-                    });
-                });
-
-                deleteButtons.forEach(function (btn) {
-                    btn.addEventListener('click', function () {
-                        const row = this.parentNode.parentNode;
-                        deleteRecord(row);
-                    });
-                });
-            }
-
-            function editRecord(row) {
-                const ip = prompt('Enter new IP Address:', row.cells[0].innerText);
-                const appId = prompt('Enter new Application ID:', row.cells[1].innerText);
-                const server = prompt('Enter new Server:', row.cells[2].innerText);
-                const port = prompt('Enter new Port:', row.cells[3].innerText);
-
-                if (ip && appId && server && port) {
-                    row.cells[0].innerText = ip;
-                    row.cells[1].innerText = appId;
-                    row.cells[2].innerText = server;
-                    row.cells[3].innerText = port;
-                    row.cells[4].innerText = new Date().toLocaleString();
-
-                    // Save table data to localStorage
-                    saveDataToLocalStorage();
-                } else {
-                    alert('Please fill out all fields.');
-                }
-            }
-
-            function deleteRecord(row) {
-                if (confirm('Are you sure you want to delete this record?')) {
-                    row.remove();
-
-                    // Save table data to localStorage
-                    saveDataToLocalStorage();
-                }
-            }
-
-            function saveDataToLocalStorage() {
-                localStorage.setItem('ipRecordsData', ipRecordsTable.innerHTML);
-            }
-        });
-
-    </script>
+    <div id="contact-info" class="section contact-info">
+        <h1>Contact Info</h1>
+        <p>Email: zach@example.com</p>
+    </div>
 
 </body>
-
 </html>
