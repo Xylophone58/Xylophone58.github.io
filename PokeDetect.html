@@ -3,23 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokémon Info Viewer</title>
+  <title>Pokemon Search</title>
   <link rel="stylesheet" href="styles.css">
+  <script defer src="PokeDetect.js"></script>
 </head>
 <body>
-  <h1>Pokémon Info Viewer</h1>
-  <input type="text" id="pokemonName" placeholder="Enter Pokémon Name">
+  <!-- Search Section -->
   <div>
-    <label>
-      <input type="checkbox" id="is3D"> 3D
-    </label>
-    <label>
-      <input type="checkbox" id="isShiny"> Shiny
-    </label>
+    <label for="pokemonName">Enter Pokémon Name: </label>
+    <input type="text" id="pokemonName">
+    <button id="newSearchButton">Search Pokémon</button>
   </div>
-  <button id="searchButton">Search</button>
+
+  <!-- Checkbox Section -->
+  <div>
+    <input type="checkbox" id="is3D"> 3D
+    <input type="checkbox" id="isShiny"> Shiny
+  </div>
+
+  <!-- Pokémon Info and GIF Section -->
   <div id="pokemonInfo"></div>
 
-  <script src="PokeDetect.js"></script>
+  <!-- Previous Searches Section -->
+  <div id="previousSearches">
+    <h3>Previous Searches:</h3>
+    <ul id="searchList"></ul>
+  </div>
 </body>
 </html>
+
