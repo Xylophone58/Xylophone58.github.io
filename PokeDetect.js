@@ -1,6 +1,15 @@
 let previousSearches = []; // Array to store previous searches
 let currentPokemonName = ''; // To store the name of the currently displayed Pokémon
 
+const nameMapping = {
+  'zygarde-50': 'zygarde',
+  'charizard-mega-x': 'charizard-megax',
+  'charizard-mega-y': 'charizard-megay',
+  'mewtwo-mega-x': 'mewtwo-megax',
+  'mewtwo-mega-y': 'mewtwo-megay',
+  'chien-pao': 'chienpao',
+};
+
 // Event listener for the "Search Pokémon" button
 document.getElementById('newSearchButton').addEventListener('click', () => {
   const pokemonName = document.getElementById('pokemonName').value.toLowerCase();
@@ -46,13 +55,16 @@ async function performSearch(pokemonName) {
     pokemonInfoDiv.innerHTML = `
       <h2>${data.name.toUpperCase()}</h2>
       <img id="pokemonGif" alt="${data.name}" class="pokemon-gif">
-      <p><strong>Type:</strong> ${data.types.map(type => type.type.name).join(', ')}</p>
+      <div id="pokemonTypes" class="pokemon-types"></div> <!-- Placeholder for types -->
       <p><strong>Abilities:</strong> ${data.abilities.map(ability => ability.ability.name).join(', ')}</p>
       <p><strong>Base Stats:</strong></p>
       <ul>
         ${data.stats.map(stat => `<li>${stat.stat.name}: ${stat.base_stat}</li>`).join('')}
       </ul>
     `;
+
+    // Update the Pokémon types to display images
+    updateTypeImages(data.types);
 
     // Update the GIF based on the checkboxes
     updateImage(pokemonName);
@@ -61,10 +73,28 @@ async function performSearch(pokemonName) {
   }
 }
 
+// Function to display type images
+function updateTypeImages(types) {
+  const typeContainer = document.getElementById('pokemonTypes');
+  typeContainer.innerHTML = ''; // Clear any existing type images
+
+  types.forEach((typeInfo) => {
+    const typeName = typeInfo.type.name; // Get the type name from PokeAPI
+    const img = document.createElement('img'); // Create an image element
+    img.src = `PokemonGifs/Types/${typeName.charAt(0).toUpperCase() + typeName.slice(1)}.png`; // Construct the image path
+    img.alt = typeName; // Set alt text for accessibility
+    img.classList.add('type-icon'); // Add a CSS class for styling
+    typeContainer.appendChild(img); // Append the image to the container
+  });
+}
+
 // Function to dynamically update the Pokémon GIF based on the checkboxes
 function updateImage(pokemonName) {
   const is3D = document.getElementById('is3D').checked;
   const isShiny = document.getElementById('isShiny').checked;
+
+  // Check if the Pokémon name needs to be mapped
+  const gifName = nameMapping[pokemonName] || pokemonName;
 
   // Determine the folder path for the image
   let folderPath = 'PokemonGifs/Pokemon Sprites';
@@ -77,7 +107,7 @@ function updateImage(pokemonName) {
   }
 
   // Construct the image path
-  const imagePath = `${folderPath}/${pokemonName}.gif`;
+  const imagePath = `${folderPath}/${gifName}.gif`;
   const pokemonGif = document.getElementById('pokemonGif');
 
   // Update the image source
