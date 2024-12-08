@@ -1,4 +1,5 @@
 let previousSearches = []; // Array to store previous searches
+let currentPokemonName = ''; // To store the name of the currently displayed Pokémon
 
 // Event listener for the "Search Pokémon" button
 document.getElementById('newSearchButton').addEventListener('click', () => {
@@ -30,6 +31,7 @@ function updateSearchList() {
 async function performSearch(pokemonName) {
   if (!pokemonName) return;
 
+  currentPokemonName = pokemonName; // Store the name of the current Pokémon
   const pokemonInfoDiv = document.getElementById('pokemonInfo');
 
   try {
@@ -40,7 +42,7 @@ async function performSearch(pokemonName) {
     }
     const data = await response.json();
 
-    // Display Pokémon details
+    // Display Pokémon details (excluding the GIF for now)
     pokemonInfoDiv.innerHTML = `
       <h2>${data.name.toUpperCase()}</h2>
       <img id="pokemonGif" alt="${data.name}" class="pokemon-gif">
@@ -52,16 +54,15 @@ async function performSearch(pokemonName) {
       </ul>
     `;
 
-    // Call updateImage to dynamically set the GIF
-    updateImage();
+    // Update the GIF based on the checkboxes
+    updateImage(pokemonName);
   } catch (error) {
     pokemonInfoDiv.innerHTML = `<p style="color: red;">${error.message}</p>`;
   }
 }
 
 // Function to dynamically update the Pokémon GIF based on the checkboxes
-function updateImage() {
-  const pokemonName = document.getElementById('pokemonName').value.toLowerCase();
+function updateImage(pokemonName) {
   const is3D = document.getElementById('is3D').checked;
   const isShiny = document.getElementById('isShiny').checked;
 
@@ -83,7 +84,20 @@ function updateImage() {
   if (pokemonGif) {
     pokemonGif.src = imagePath;
     pokemonGif.onerror = () => {
-      pokemonGif.src = 'error-image.png';
+      pokemonGif.src = 'error-image.png'; // Fallback in case the GIF is not found
     };
   }
 }
+
+// Ensure the GIF updates when checkboxes are clicked
+document.getElementById('is3D').addEventListener('change', () => {
+  if (currentPokemonName) {
+    updateImage(currentPokemonName); // Update the image with the current checkbox state
+  }
+});
+
+document.getElementById('isShiny').addEventListener('change', () => {
+  if (currentPokemonName) {
+    updateImage(currentPokemonName); // Update the image with the current checkbox state
+  }
+});
