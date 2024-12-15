@@ -10,7 +10,6 @@ const nameMapping = {
   'chien-pao': 'chienpao',
 };
 
-// Load searches from localStorage when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   const savedSearches = localStorage.getItem('previousSearches');
   if (savedSearches) {
@@ -82,7 +81,7 @@ async function performSearch(pokemonName) {
     updateTypeImages(data.types);
 
     // Update the GIF based on the checkboxes
-    updateImage(pokemonName);
+    updateImage(currentPokemonName);
   } catch (error) {
     pokemonInfoDiv.innerHTML = `<p style="color: red;">${error.message}</p>`;
   }
@@ -106,15 +105,36 @@ function updateImage(pokemonName) {
   // Construct the image path
   const imagePath = `${folderPath}/${pokemonName}.gif`;
   const pokemonGif = document.getElementById('pokemonGif');
+  const pokemonInfoDiv = document.getElementById('pokemonInfo');
 
   // Update the image source
   if (pokemonGif) {
     pokemonGif.src = imagePath;
+
+    // Handle GIF loading errors
     pokemonGif.onerror = () => {
-      pokemonGif.src = 'error-image.png'; // Fallback in case the GIF is not found
+      pokemonGif.src = ''; // Clear the image
+
+      // Check if an error message already exists
+      if (!document.getElementById('gifError')) {
+        const errorMessage = document.createElement('p');
+        errorMessage.id = 'gifError'; // Unique ID to avoid duplicates
+        errorMessage.style.color = 'red';
+        errorMessage.textContent = `Error: GIF not found for "${pokemonName}".`;
+        pokemonInfoDiv.appendChild(errorMessage);
+      }
+    };
+
+    // Remove the error message if the image loads successfully
+    pokemonGif.onload = () => {
+      const existingError = document.getElementById('gifError');
+      if (existingError) {
+        existingError.remove();
+      }
     };
   }
 }
+
 
 // Function to display type images
 function updateTypeImages(types) {
@@ -124,9 +144,22 @@ function updateTypeImages(types) {
   types.forEach((typeInfo) => {
     const typeName = typeInfo.type.name; // Get the type name from PokeAPI
     const img = document.createElement('img'); // Create an image element
-    img.src = `PokemonTypes/${typeName.charAt(0).toUpperCase() + typeName.slice(1)}.png`; // Construct the image path
+    img.src = `PokemonGifs/Types/${typeName.charAt(0).toUpperCase() + typeName.slice(1)}.png`; // Construct the image path
     img.alt = typeName; // Set alt text for accessibility
     img.classList.add('type-icon'); // Add a CSS class for styling
     typeContainer.appendChild(img); // Append the image to the container
   });
 }
+
+// Ensure the GIF updates when checkboxes are clicked
+document.getElementById('is3D').addEventListener('change', () => {
+  if (currentPokemonName) {
+    updateImage(currentPokemonName); // Update the image with the current checkbox state
+  }
+});
+
+document.getElementById('isShiny').addEventListener('change', () => {
+  if (currentPokemonName) {
+    updateImage(currentPokemonName); // Update the image with the current checkbox state
+  }
+});
