@@ -10,16 +10,26 @@ const nameMapping = {
   'chien-pao': 'chienpao',
 };
 
+// Load searches from localStorage when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+  const savedSearches = localStorage.getItem('previousSearches');
+  if (savedSearches) {
+    previousSearches = JSON.parse(savedSearches); // Parse the JSON string into an array
+    updateSearchList(); // Update the search list visually
+  }
+});
+
 // Event listener for the "Search Pokémon" button
 document.getElementById('newSearchButton').addEventListener('click', () => {
   const pokemonName = document.getElementById('pokemonName').value.toLowerCase();
 
   if (pokemonName && !previousSearches.includes(pokemonName)) {
-    previousSearches.push(pokemonName);
-    updateSearchList();
+    previousSearches.push(pokemonName); // Add to the search list
+    saveSearches(); // Save the updated list to localStorage
+    updateSearchList(); // Update the search list visually
   }
 
-  performSearch(pokemonName);
+  performSearch(pokemonName); // Perform the search
 });
 
 // Function to update the list of previous searches
@@ -34,6 +44,11 @@ function updateSearchList() {
     listItem.addEventListener('click', () => performSearch(search)); // Re-perform search on click
     searchList.appendChild(listItem);
   });
+}
+
+// Function to save the searches to localStorage
+function saveSearches() {
+  localStorage.setItem('previousSearches', JSON.stringify(previousSearches)); // Save the array as a JSON string
 }
 
 // Function to perform a Pokémon search
@@ -73,28 +88,10 @@ async function performSearch(pokemonName) {
   }
 }
 
-// Function to display type images
-function updateTypeImages(types) {
-  const typeContainer = document.getElementById('pokemonTypes');
-  typeContainer.innerHTML = ''; // Clear any existing type images
-
-  types.forEach((typeInfo) => {
-    const typeName = typeInfo.type.name; // Get the type name from PokeAPI
-    const img = document.createElement('img'); // Create an image element
-    img.src = `PokemonGifs/Types/${typeName.charAt(0).toUpperCase() + typeName.slice(1)}.png`; // Construct the image path
-    img.alt = typeName; // Set alt text for accessibility
-    img.classList.add('type-icon'); // Add a CSS class for styling
-    typeContainer.appendChild(img); // Append the image to the container
-  });
-}
-
 // Function to dynamically update the Pokémon GIF based on the checkboxes
 function updateImage(pokemonName) {
   const is3D = document.getElementById('is3D').checked;
   const isShiny = document.getElementById('isShiny').checked;
-
-  // Check if the Pokémon name needs to be mapped
-  const gifName = nameMapping[pokemonName] || pokemonName;
 
   // Determine the folder path for the image
   let folderPath = 'PokemonGifs/Pokemon Sprites';
@@ -107,7 +104,7 @@ function updateImage(pokemonName) {
   }
 
   // Construct the image path
-  const imagePath = `${folderPath}/${gifName}.gif`;
+  const imagePath = `${folderPath}/${pokemonName}.gif`;
   const pokemonGif = document.getElementById('pokemonGif');
 
   // Update the image source
@@ -119,15 +116,17 @@ function updateImage(pokemonName) {
   }
 }
 
-// Ensure the GIF updates when checkboxes are clicked
-document.getElementById('is3D').addEventListener('change', () => {
-  if (currentPokemonName) {
-    updateImage(currentPokemonName); // Update the image with the current checkbox state
-  }
-});
+// Function to display type images
+function updateTypeImages(types) {
+  const typeContainer = document.getElementById('pokemonTypes');
+  typeContainer.innerHTML = ''; // Clear any existing type images
 
-document.getElementById('isShiny').addEventListener('change', () => {
-  if (currentPokemonName) {
-    updateImage(currentPokemonName); // Update the image with the current checkbox state
-  }
-});
+  types.forEach((typeInfo) => {
+    const typeName = typeInfo.type.name; // Get the type name from PokeAPI
+    const img = document.createElement('img'); // Create an image element
+    img.src = `PokemonTypes/${typeName.charAt(0).toUpperCase() + typeName.slice(1)}.png`; // Construct the image path
+    img.alt = typeName; // Set alt text for accessibility
+    img.classList.add('type-icon'); // Add a CSS class for styling
+    typeContainer.appendChild(img); // Append the image to the container
+  });
+}
