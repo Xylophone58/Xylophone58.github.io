@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .sudoku-container {
+            display: inline-grid;
+            grid-template-columns: repeat(9, 50px);
+            grid-template-rows: repeat(9, 50px);
+            gap: 1px;
+            margin: 20px;
+            border: 2px solid black;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid grey;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+            position: relative;
+        }
+        .cell.fixed {
+            background-color: lightgray;
+            cursor: default;
+        }
+        .cell.computer {
+            color: green;
+        }
+        .cell.selected {
+            background-color: rgba(0, 0, 255, 0.5);
+        }
+        .cell.highlight {
+            background-color: rgba(0, 0, 255, 0.2);
+        }
+        .number-buttons {
+            margin-top: 10px;
+        }
+        button {
+            font-size: 20px;
+            margin: 5px;
+            padding: 10px;
+        }
+        .sudoku-container div:nth-child(3n) {
+            border-right: 2px solid black;
+        }
+        .sudoku-container div:nth-child(n+19):nth-child(-n+27),
+        .sudoku-container div:nth-child(n+46):nth-child(-n+54) {
+            border-bottom: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sudoku Solver</h1>
+    <div id="sudoku" class="sudoku-container"></div>
+    <div class="number-buttons">
+        <button onclick="selectNumber(1)">1</button>
+        <button onclick="selectNumber(2)">2</button>
+        <button onclick="selectNumber(3)">3</button>
+        <button onclick="selectNumber(4)">4</button>
+        <button onclick="selectNumber(5)">5</button>
+        <button onclick="selectNumber(6)">6</button>
+        <button onclick="selectNumber(7)">7</button>
+        <button onclick="selectNumber(8)">8</button>
+        <button onclick="selectNumber(9)">9</button>
+    </div>
+    <button onclick="solveSudoku()">Solve</button>
+    <button onclick="clearBoard()">Clear</button>
+    
+    <script>
+        let selectedNumber = null;
+        let selectedCell = null;
+        let solveDelay = 0; // Delay in milliseconds
+        
+        function createBoard() {
+            const board = document.getElementById("sudoku");
+            for (let i = 0; i < 81; i++) {
+                let cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.dataset.index = i;
+                cell.onclick = () => selectCell(cell);
+                board.appendChild(cell);
+            }
+        }
+        
+        function selectCell(cell) {
+            if (!cell.classList.contains("fixed")) {
+                clearHighlights();
+                selectedCell = cell;
+                selectedCell.classList.add("selected");
+                highlightRelatedCells(selectedCell);
+            }
+        }
+        
+        function highlightRelatedCells(cell) {
+            let index = parseInt(cell.dataset.index);
+            let row = Math.floor(index / 9);
+            let col = index % 9;
+            let startRow = 3 * Math.floor(row / 3);
+            let startCol = 3 * Math.floor(col / 3);
+            
+            document.querySelectorAll(".cell").forEach((c, i) => {
+                let r = Math.floor(i / 9);
+                let cIndex = i % 9;
+                if (r === row || cIndex === col || (r >= startRow && r < startRow + 3 && cIndex >= startCol && cIndex < startCol + 3)) {
+                    c.classList.add("highlight");
+                }
+            });
+        }
+        
+        function clearHighlights() {
+            document.querySelectorAll(".cell").forEach(cell => {
+                cell.classList.remove("selected", "highlight");
+            });
+        }
+        
+        function selectNumber(num) {
+            if (selectedCell) {
+                selectedCell.textContent = num;
+                selectedCell.dataset.value = num;
+                selectedCell.style.color = "black";
+            }
+        }
+        
+        function isValid(board, row, col, num) {
+            for (let i = 0; i < 9; i++) {
+                if (board[row][i] === num || board[i][col] === num) return false;
+                let boxRow = Math.floor(row / 3) * 3 + Math.floor(i / 3);
+                let boxCol = Math.floor(col / 3) * 3 + (i % 3);
+                if (board[boxRow][boxCol] === num) return false;
+            }
+            return true;
+        }
+        
+        async function solveSudoku() {
+            let board = Array(9).fill().map(() => Array(9).fill(0));
+            let cells = document.querySelectorAll(".cell");
+            cells.forEach((cell, index) => {
+                let row = Math.floor(index / 9);
+                let col = index % 9;
+                board[row][col] = cell.dataset.value ? parseInt(cell.dataset.value) : 0;
+            });
+            
+            await solveWithDelay(board, cells);
+        }
+        
+        async function solveWithDelay(board, cells) {
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    if (board[row][col] === 0) {
+                        for (let num = 1; num <= 9; num++) {
+                            if (isValid(board, row, col, num)) {
+                                board[row][col] = num;
+                                let index = row * 9 + col;
+                                cells[index].textContent = num;
+                                cells[index].classList.add("computer");
+                                cells[index].style.color = "green";
+                                await new Promise(resolve => setTimeout(resolve, solveDelay));
+                                
+                                if (await solveWithDelay(board, cells)) return true;
+                                
+                                board[row][col] = 0;
+                                cells[index].textContent = "";
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
+        createBoard();
+    </script>
+</body>
+</html>
