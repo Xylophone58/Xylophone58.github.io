@@ -25,6 +25,7 @@ body {
 
   #previousSearches {
     margin-top: 20px;
+    background-color: rgb(32, 32, 32);
   }
   
   #searchList {
