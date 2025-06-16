@@ -1,7 +1,7 @@
 let previousSearches = []; // Array to store previous searches
 let currentPokemonName = ''; // To store the name of the currently displayed Pokémon
 let currentBasePokemonName = ''; // Base species name (without mega form)
-let megaFormsList = []; // Available mega forms for the current Pokémon
+let megaFormsList = []; // Available special forms (mega, gmax, regional) for the current Pokémon
 let currentFormIndex = 0; // Index to keep track of which form is displayed
 
 const nameMapping = {
@@ -11,7 +11,40 @@ const nameMapping = {
   'mewtwo-mega-x': 'mewtwo-megax',
   'mewtwo-mega-y': 'mewtwo-megay',
   'chien-pao': 'chienpao',
+  'darmanitan-galar-zen': 'darmanitan-galarzen',
 };
+
+const formKeywords = ['mega', 'gmax', 'alola', 'galar', 'hisui', 'paldea'];
+
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+function formatDisplayName(name) {
+  const parts = name.split('-');
+  const base = capitalize(parts[0]);
+
+  if (parts.includes('mega')) {
+    const idx = parts.indexOf('mega');
+    const extra = parts.slice(idx + 1).map(capitalize).join(' ');
+    return `Mega ${base}${extra ? ' ' + extra : ''}`;
+  }
+
+  if (parts.includes('gmax')) {
+    return `Gigantamax ${base}`;
+  }
+
+  const regions = { alola: 'Alolan', galar: 'Galarian', hisui: 'Hisuian', paldea: 'Paldean' };
+  for (const [region, label] of Object.entries(regions)) {
+    const idx = parts.indexOf(region);
+    if (idx !== -1) {
+      const extra = parts.slice(idx + 1).map(capitalize).join(' ');
+      return `${label} ${base}${extra ? ' ' + extra : ''}`;
+    }
+  }
+
+  return parts.map(capitalize).join(' ');
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const savedSearches = localStorage.getItem('previousSearches');
@@ -74,7 +107,7 @@ async function performSearch(pokemonName) {
     currentBasePokemonName = speciesData.name;
     megaFormsList = speciesData.varieties
       .map(v => v.pokemon.name)
-      .filter(name => name.includes('mega'));
+      .filter(name => formKeywords.some(k => name.includes(k)));
     const forms = [currentBasePokemonName, ...megaFormsList];
     currentFormIndex = forms.indexOf(data.name);
     setupMegaToggle();
@@ -82,8 +115,8 @@ async function performSearch(pokemonName) {
 
     // Display Pokémon details (excluding the GIF for now)
     pokemonInfoDiv.innerHTML = `
-      <h2>${data.name.toUpperCase()}</h2>
-      <img id="pokemonGif" alt="${data.name}" class="pokemon-gif">
+      <h2>${formatDisplayName(data.name)}</h2>
+      <img id="pokemonGif" alt="${formatDisplayName(data.name)}" class="pokemon-gif">
       <div id="pokemonTypes" class="pokemon-types"></div> <!-- Placeholder for types -->
       <p><strong>Abilities:</strong> ${data.abilities.map(ability => ability.ability.name).join(', ')}</p>
       <p><strong>Base Stats:</strong></p>
