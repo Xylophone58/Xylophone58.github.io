@@ -1,5 +1,8 @@
 let previousSearches = []; // Array to store previous searches
 let currentPokemonName = ''; // To store the name of the currently displayed Pokémon
+let currentBasePokemonName = ''; // Base species name (without mega form)
+let megaFormsList = []; // Available mega forms for the current Pokémon
+let currentFormIndex = 0; // Index to keep track of which form is displayed
 
 const nameMapping = {
   'zygarde-50': 'zygarde',
@@ -65,6 +68,18 @@ async function performSearch(pokemonName) {
     }
     const data = await response.json();
 
+    // Fetch species data to determine mega evolutions
+    const speciesResponse = await fetch(data.species.url);
+    const speciesData = await speciesResponse.json();
+    currentBasePokemonName = speciesData.name;
+    megaFormsList = speciesData.varieties
+      .map(v => v.pokemon.name)
+      .filter(name => name.includes('mega'));
+    const forms = [currentBasePokemonName, ...megaFormsList];
+    currentFormIndex = forms.indexOf(data.name);
+    setupMegaToggle();
+
+
     // Display Pokémon details (excluding the GIF for now)
     pokemonInfoDiv.innerHTML = `
       <h2>${data.name.toUpperCase()}</h2>
@@ -89,6 +104,7 @@ async function performSearch(pokemonName) {
 
 // Function to dynamically update the Pokémon GIF based on the checkboxes
 function updateImage(pokemonName) {
+  pokemonName = nameMapping[pokemonName] || pokemonName;
   const is3D = document.getElementById('is3D').checked;
   const isShiny = document.getElementById('isShiny').checked;
 
@@ -149,6 +165,24 @@ function updateTypeImages(types) {
     img.classList.add('type-icon'); // Add a CSS class for styling
     typeContainer.appendChild(img); // Append the image to the container
   });
+}
+
+function setupMegaToggle() {
+  const toggleBtn = document.getElementById('toggleMega');
+  if (!toggleBtn) return;
+
+  if (megaFormsList.length === 0) {
+    toggleBtn.style.display = 'none';
+    return;
+  }
+
+  toggleBtn.style.display = 'inline-block';
+  toggleBtn.textContent = 'Next Form';
+  toggleBtn.onclick = () => {
+    const forms = [currentBasePokemonName, ...megaFormsList];
+    currentFormIndex = (currentFormIndex + 1) % forms.length;
+    performSearch(forms[currentFormIndex]);
+  };
 }
 
 // Ensure the GIF updates when checkboxes are clicked
