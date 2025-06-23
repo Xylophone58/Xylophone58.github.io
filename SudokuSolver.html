@@ -4,61 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sudoku Solver</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .sudoku-container {
-            display: inline-grid;
-            grid-template-columns: repeat(9, 50px);
-            grid-template-rows: repeat(9, 50px);
-            gap: 1px;
-            margin: 20px;
-            border: 2px solid black;
-        }
-        .cell {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid grey;
-            font-size: 20px;
-            cursor: pointer;
-            background-color: white;
-            color: black;
-            position: relative;
-        }
-        .cell.fixed {
-            background-color: lightgray;
-            cursor: default;
-        }
-        .cell.computer {
-            color: green;
-        }
-        .cell.selected {
-            background-color: rgba(0, 0, 255, 0.5);
-        }
-        .cell.highlight {
-            background-color: rgba(0, 0, 255, 0.2);
-        }
-        .number-buttons {
-            margin-top: 10px;
-        }
-        button {
-            font-size: 20px;
-            margin: 5px;
-            padding: 10px;
-        }
-        .sudoku-container div:nth-child(3n) {
-            border-right: 2px solid black;
-        }
-        .sudoku-container div:nth-child(n+19):nth-child(-n+27),
-        .sudoku-container div:nth-child(n+46):nth-child(-n+54) {
-            border-bottom: 2px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <h1>Sudoku Solver</h1>
@@ -184,3 +130,4 @@
     </script>
 </body>
 </html>
+
