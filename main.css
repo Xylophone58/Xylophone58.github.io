@@ -16,7 +16,7 @@
 body {
     font-family: 'VCR OSD Mono', Arial, sans-serif;
     line-height: 1.6;
-    background: url('your-background-image.jpg') no-repeat center top;
+    background-color: #000000;
     background-attachment: fixed;
     background-size: cover;
     color: #fff;
