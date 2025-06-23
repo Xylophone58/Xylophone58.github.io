@@ -54,6 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Event listener for clearing previous searches
+document.getElementById('clearSearches').addEventListener('click', () => {
+  previousSearches = [];
+  localStorage.removeItem('previousSearches');
+  updateSearchList();
+});
+
 // Event listener for the "Search Pokémon" button
 document.getElementById('newSearchButton').addEventListener('click', () => {
   const pokemonName = document.getElementById('pokemonName').value.toLowerCase();
